@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-ink-950 text-slate-200 antialiased;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* ---------------------------------------------------------------
+   Animated background: slow-floating neon blobs + grid + grain.
+   Fixed behind everything (z-index -1), purely CSS, no JS/canvas.
+   --------------------------------------------------------------- */
+.bg-fx {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: linear-gradient(180deg, #05050a 0%, #07070f 100%);
+}
+
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+.blob-a {
+  width: 48vw;
+  height: 48vw;
+  max-width: 620px;
+  max-height: 620px;
+  top: -12%;
+  left: -10%;
+  background: radial-gradient(circle, rgba(0, 255, 157, 0.55), transparent 70%);
+  animation: float-a 22s ease-in-out infinite;
+}
+.blob-b {
+  width: 42vw;
+  height: 42vw;
+  max-width: 560px;
+  max-height: 560px;
+  top: -6%;
+  right: -12%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.55), transparent 70%);
+  animation: float-b 26s ease-in-out infinite;
+}
+.blob-c {
+  width: 36vw;
+  height: 36vw;
+  max-width: 460px;
+  max-height: 460px;
+  bottom: -14%;
+  left: 30%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.35), transparent 70%);
+  animation: float-c 30s ease-in-out infinite;
+}
+
+@keyframes float-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(6vw, 4vh) scale(1.08); }
+  66% { transform: translate(-3vw, 6vh) scale(0.95); }
+}
+@keyframes float-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-5vw, 5vh) scale(0.92); }
+  66% { transform: translate(-7vw, -3vh) scale(1.06); }
+}
+@keyframes float-c {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(4vw, -6vh) scale(1.12); }
+}
+
+/* Faint grid, fading toward the edges so it doesn't fight the content */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 85%);
+}
+
+/* Subtle film-grain texture for depth (inline SVG, no network request) */
+.bg-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob { animation: none; }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-white/10 bg-ink-800/60 p-5 shadow-[0_1px_0_0_rgba(255,255,255,0.04)_inset] backdrop-blur-xl transition-colors sm:p-6;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl bg-neon-green px-5 py-3 font-semibold text-ink-950 transition-all duration-200
+           hover:shadow-glow-green hover:brightness-110 active:scale-[0.98]
+           disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:shadow-none disabled:active:scale-100;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-xl border border-neon-purple/60 px-4 py-2.5 text-sm font-medium text-neon-purple transition-all duration-200
+           hover:bg-neon-purple/10 hover:shadow-glow-purple active:scale-[0.98];
+  }
+  .label {
+    @apply text-xs font-medium uppercase tracking-widest text-slate-400;
+  }
+}
+
+::selection {
+  background: rgba(0, 255, 157, 0.25);
+}
