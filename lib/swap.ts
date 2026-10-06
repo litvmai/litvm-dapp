@@ -123,4 +123,19 @@ export const TOKEN_LIST: { address: Address; symbol: string; name: string }[] = 
     symbol: "LITVMAI",
     name: "LitVM AI",
   },
+  {
+    address: "0x0DF8030A7FAec436d466d9D3d8290b3e3b6b69d9",
+    symbol: "TYV",
+    name: "Tyvion",
+  },
+  {
+    address: "0x648d92EF4C9B6DAb0a3F370A89Af2Db9C7186Eb7",
+    symbol: "EVR",
+    name: "Evyra",
+  },
+  {
+    address: "0x614175F4219C5eC7cE3A3885feEA7357BB19E2fd",
+    symbol: "THR",
+    name: "Thryon",
+  },
 ];

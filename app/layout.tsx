@@ -19,7 +19,12 @@ export default function RootLayout({
           <span className="blob blob-a" />
           <span className="blob blob-b" />
           <span className="blob blob-c" />
+          <div className="bg-aurora" />
+          <div className="bg-stars" />
           <div className="bg-grid" />
+          <div className="bg-floor" />
+          <div className="bg-beam" />
+          <div className="bg-vignette" />
           <div className="bg-noise" />
         </div>
         <Providers>{children}</Providers>
