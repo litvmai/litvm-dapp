@@ -37,13 +37,12 @@ export function SocialTasks() {
       <div className="flex items-center justify-between">
         <p className="label">Social tasks</p>
         <div className="rounded-full border border-neon-purple/40 bg-neon-purple/10 px-3 py-1 text-xs font-semibold text-neon-purple">
-          {xp}/{totalXp} XP
+          {xp} XP
         </div>
       </div>
 
       <p className="mt-2 text-sm text-slate-400">
-        Connect X and Discord, then follow, retweet, comment, and join the
-        server to earn XP.
+        Social tasks add up to {totalXp} XP, once per wallet. Swap XP is separate and unlimited.
       </p>
 
       {address && (
@@ -51,12 +50,12 @@ export function SocialTasks() {
           <span
             className={`rounded-full px-2 py-1 ${connections.x ? "bg-neon-green/10 text-neon-green" : "bg-white/5 text-slate-500"}`}
           >
-            {connections.x ? "X connected ✓" : "X not connected"}
+            {connections.x ? "X connected \u2713" : "X not connected"}
           </span>
           <span
             className={`rounded-full px-2 py-1 ${connections.discord ? "bg-neon-green/10 text-neon-green" : "bg-white/5 text-slate-500"}`}
           >
-            {connections.discord ? "Discord connected ✓" : "Discord not connected"}
+            {connections.discord ? "Discord connected \u2713" : "Discord not connected"}
           </span>
         </div>
       )}

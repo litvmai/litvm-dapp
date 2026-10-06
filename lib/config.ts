@@ -28,3 +28,8 @@ export const COMMENT_XP = 50;
 export const DISCORD_JOIN_XP = 75;
 /** XP awarded per confirmed, on-chain-verified transaction to the contract. */
 export const TX_XP = 5;
+
+/** XP for a swap sent to the verified LiteForge router. Checked on-chain. */
+export const SWAP_XP = 10;
+/** Once per UTC day, per wallet. Stored in Redis, not on-chain. */
+export const CHECKIN_XP = 10;
