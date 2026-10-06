@@ -13,9 +13,13 @@ const links = [
 export function Header() {
   const path = usePathname();
   return (
-    <header className="sticky top-3 z-20 mb-6 flex items-center justify-between gap-3 rounded-full border border-white/10 bg-ink-950/75 px-3 py-2 shadow-[0_10px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:px-4">
-      <Link href="/" className="flex items-center gap-2 pl-1">
-        <img src="/logo.webp" alt="litvmai" className="h-10 w-auto rounded-md" />
+    <header className="sticky top-3 z-20 mb-6 flex items-center justify-between gap-3 rounded-full border border-white/10 bg-ink-950/80 px-3 py-1.5 shadow-[0_10px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:px-4">
+      <Link href="/" className="flex items-center pl-1">
+        <img
+          src="/logo.png"
+          alt="litvmai"
+          className="h-9 w-auto object-contain mix-blend-screen"
+        />
       </Link>
       <nav className="hidden items-center gap-1 sm:flex">
         {links.map((l) => (
