@@ -1,7 +1,6 @@
 import { Header } from "@/components/Header";
 import { NetworkGuard } from "@/components/NetworkGuard";
 import { Swap } from "@/components/Swap";
-import { Rewards } from "@/components/Rewards";
 import { Leaderboard } from "@/components/Leaderboard";
 import { Participate } from "@/components/Participate";
 import { WalletInfo } from "@/components/WalletInfo";
@@ -19,25 +18,20 @@ export default function Home() {
             Swap zkLTC
           </h1>
           <p className="mt-2 max-w-xl text-sm text-slate-400">
-            litvmai desk on LiteForge. Trade zkLTC and earn XP for every confirmed swap.
+            litvmai desk on LiteForge. Swap on the left, standings on the right.
           </p>
-        </div>
-        <div className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-slate-300">
-          +10 XP per verified swap
         </div>
       </section>
 
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)]">
-        <Swap />
-        <div id="xp" className="space-y-6">
-          <Rewards />
+        <div className="space-y-6">
+          <Swap />
+          <Participate />
           <WalletInfo />
         </div>
-      </div>
-
-      <div className="mt-6 grid gap-6 md:grid-cols-2">
-        <Participate />
-        <Leaderboard />
+        <div id="board">
+          <Leaderboard />
+        </div>
       </div>
 
       <footer className="mt-12 text-center text-xs text-slate-500">
