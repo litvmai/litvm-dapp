@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { NetworkGuard } from "@/components/NetworkGuard";
 import { Swap } from "@/components/Swap";
 import { Participate } from "@/components/Participate";
+import { GasRefund } from "@/components/GasRefund";
 import { WalletInfo } from "@/components/WalletInfo";
 
 export default function Home() {
@@ -14,13 +15,14 @@ export default function Home() {
         <p className="label">litvmai</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white">Swap zkLTC</h1>
         <p className="mt-2 text-sm text-slate-400">
-          Trade on LiteForge. Participate sits under the swap, and the board has its own page.
+          Trade on LiteForge. Claim tracked gas under participate.
         </p>
       </section>
 
       <div className="space-y-6">
         <Swap />
         <Participate />
+        <GasRefund />
         <WalletInfo />
       </div>
 
