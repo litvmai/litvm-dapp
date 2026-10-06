@@ -3,6 +3,9 @@ import { isAddress } from "viem";
 import { redis, LEADERBOARD_KEY, xpKey } from "@/lib/redis";
 import { FOLLOW_XP, RETWEET_XP, COMMENT_XP, DISCORD_JOIN_XP } from "@/lib/config";
 
+const TWEET_TASK_KEY = "tweet_task";
+const claimedKey = (address: string) => `tweet_claims:${address.toLowerCase()}`;
+
 type SelfReportedTask = "follow" | "retweet" | "comment";
 type VerifiedTask = "join_discord";
 type Task = SelfReportedTask | VerifiedTask;
@@ -44,13 +47,8 @@ function toResponse(r: Record_ | null) {
 
 /**
  * Claims XP for a task.
- * - follow / retweet / comment: self-reported (X doesn't let us verify
- *   these for free), but now require a verified X login first — someone
- *   has to actually sign in with that X account before they can claim.
- * - join_discord: not self-reported at all. It can only become true via
- *   the Discord OAuth callback actually seeing the wallet's linked
- *   Discord account inside your server's member list. Claiming here just
- *   converts that already-verified fact into XP.
+ * follow is once per wallet. retweet and comment are once per active post.
+ * join_discord is credited only after Discord OAuth saw the guild.
  */
 export async function POST(req: NextRequest) {
   const { address, task } = (await req.json()) as {
@@ -85,10 +83,22 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const already = record?.[validTask];
-  if (!already) {
-    await redis.hset(key, { [validTask]: 1 });
-    await redis.hincrby(key, "xp", XP_BY_TASK[validTask]);
+  if (validTask === "retweet" || validTask === "comment") {
+    const task = await redis.get<{ id?: string } | string>(TWEET_TASK_KEY);
+    const parsed = typeof task === "string" ? JSON.parse(task) : task;
+    const tweetId = parsed?.id;
+    if (!tweetId) {
+      return NextResponse.json({ error: "No active post task yet" }, { status: 400 });
+    }
+    const member = `${validTask}:${tweetId}`;
+    const isNew = await redis.sadd(claimedKey(address), member);
+    if (isNew) await redis.hincrby(key, "xp", XP_BY_TASK[validTask]);
+  } else {
+    const already = record?.[validTask];
+    if (!already) {
+      await redis.hset(key, { [validTask]: 1 });
+      await redis.hincrby(key, "xp", XP_BY_TASK[validTask]);
+    }
   }
 
   const updated = await redis.hgetall<Record_>(key);
