@@ -6,6 +6,7 @@ import { Participate } from "@/components/Participate";
 import { SocialTasks } from "@/components/SocialTasks";
 import { Leaderboard } from "@/components/Leaderboard";
 import { GasRefund } from "@/components/GasRefund";
+import { Rewards } from "@/components/Rewards";
 
 export default function Home() {
   return (
@@ -20,12 +21,16 @@ export default function Home() {
           </span>
         </h1>
         <p className="mx-auto mt-3 max-w-xl text-slate-400">
-          Connect your wallet, participate on-chain and complete the social
-          tasks on the LiteForge testnet.
+          Swap, participate, and check in on LiteForge. Every confirmed action
+          adds XP and moves you up the leaderboard.
         </p>
       </section>
 
-      <div className="mt-10 grid gap-6 md:grid-cols-2">
+      <div className="mt-10 grid gap-6">
+        <Rewards />
+      </div>
+
+      <div className="mt-6 grid gap-6 md:grid-cols-2">
         <WalletInfo />
         <ContractBalance />
       </div>

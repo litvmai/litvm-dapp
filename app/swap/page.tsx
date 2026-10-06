@@ -15,8 +15,7 @@ export default function SwapPage() {
           </span>
         </h1>
         <p className="mx-auto mt-2 max-w-lg text-slate-400">
-          Trade zkLTC for any token on LiteForge, routed through a verified
-          on-chain AMM.
+          Trade on LiteForge and earn +10 XP for every confirmed swap. No daily cap.
         </p>
       </section>
 

@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createPublicClient, http, isAddress, isHash } from "viem";
 import { liteForge } from "@/lib/chain";
-import { CONTRACT_ADDRESS, TX_XP } from "@/lib/config";
+import { CONTRACT_ADDRESS, SWAP_XP, TX_XP } from "@/lib/config";
+import { ROUTER_ADDRESS } from "@/lib/swap";
 import { redis, LEADERBOARD_KEY, xpKey, txsKey } from "@/lib/redis";
 
 const publicClient = createPublicClient({
@@ -10,11 +11,9 @@ const publicClient = createPublicClient({
 });
 
 /**
- * Awards XP for a transaction, but only after verifying it directly on
- * chain: it must exist, be confirmed successful, be sent BY the claimed
- * address, and go TO the contract address. This is genuinely tamper-proof
- * (unlike the social tasks) — a user can't fake a transaction that never
- * happened. Each tx hash can only ever be credited once.
+ * Awards XP after verifying the tx on LiteForge: confirmed, sent by the
+ * claimed wallet, and sent to LitVMCore (+5) or the verified router (+10).
+ * Each hash can only be credited once.
  */
 export async function POST(req: NextRequest) {
   const { address, txHash } = (await req.json()) as {
@@ -29,13 +28,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid tx hash" }, { status: 400 });
   }
 
-  // Dedupe: SADD returns 0 if the hash was already recorded.
   const isNew = await redis.sadd(txsKey(address), txHash);
   if (!isNew) {
-    return NextResponse.json(
-      { error: "Transaction already credited" },
-      { status: 409 }
-    );
+    return NextResponse.json({ error: "Transaction already credited" }, { status: 409 });
   }
 
   try {
@@ -44,19 +39,31 @@ export async function POST(req: NextRequest) {
       publicClient.getTransactionReceipt({ hash: txHash as `0x${string}` }),
     ]);
 
+    const to = tx.to?.toLowerCase();
+    const awarded =
+      to === CONTRACT_ADDRESS.toLowerCase()
+        ? TX_XP
+        : to === ROUTER_ADDRESS.toLowerCase()
+        ? SWAP_XP
+        : 0;
     const valid =
       receipt.status === "success" &&
       tx.from.toLowerCase() === address.toLowerCase() &&
-      tx.to?.toLowerCase() === CONTRACT_ADDRESS.toLowerCase();
+      awarded > 0;
 
     if (!valid) {
-      // Roll back the dedupe entry so a genuinely valid tx could be retried.
       await redis.srem(txsKey(address), txHash);
       return NextResponse.json(
-        { error: "Transaction does not match this wallet/contract" },
+        { error: "Transaction does not match this wallet or a rewarded contract" },
         { status: 400 }
       );
     }
+
+    const key = xpKey(address);
+    await redis.hincrby(key, "txCount", 1);
+    const totalXp = await redis.hincrby(key, "xp", awarded);
+    await redis.zadd(LEADERBOARD_KEY, { score: totalXp, member: address.toLowerCase() });
+    return NextResponse.json({ xp: totalXp, awarded });
   } catch {
     await redis.srem(txsKey(address), txHash);
     return NextResponse.json(
@@ -64,11 +71,4 @@ export async function POST(req: NextRequest) {
       { status: 400 }
     );
   }
-
-  const key = xpKey(address);
-  await redis.hincrby(key, "txCount", 1);
-  const totalXp = await redis.hincrby(key, "xp", TX_XP);
-  await redis.zadd(LEADERBOARD_KEY, { score: totalXp, member: address.toLowerCase() });
-
-  return NextResponse.json({ xp: totalXp, awarded: TX_XP });
 }

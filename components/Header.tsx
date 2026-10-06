@@ -11,6 +11,9 @@ export function Header() {
         <span className="text-lg font-bold tracking-tight">LitVM</span>
       </Link>
       <nav className="flex items-center gap-4">
+        <Link href="/#rewards" className="hidden text-sm text-slate-400 transition hover:text-neon-green sm:block">
+          XP
+        </Link>
         <Link
           href="/swap"
           className="hidden text-sm text-slate-400 transition hover:text-neon-green sm:block"
@@ -23,7 +26,6 @@ export function Header() {
         >
           Dashboard
         </Link>
-        {/* RainbowKit button: connect, switch network, account modal */}
         <ConnectButton showBalance={false} chainStatus="icon" />
       </nav>
     </header>
