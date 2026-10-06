@@ -18,16 +18,14 @@ export function Header() {
         <span className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-gradient-to-b from-white to-slate-400 text-lg font-black text-ink-950">
           Ł
         </span>
-        <span className="text-sm font-semibold tracking-[0.18em] text-slate-100">LITVM</span>
+        <span className="text-sm font-semibold tracking-[0.18em] text-slate-100">litvmai</span>
       </Link>
       <nav className="hidden items-center gap-1 sm:flex">
         {links.map((l) => (
           <Link
             key={l.href}
             href={l.href}
-            className={`rounded-full px-3 py-1.5 text-sm ${
-              path === l.href ? "bg-white/10 text-white" : "text-slate-400 hover:text-white"
-            }`}
+            className={`rounded-full px-3 py-1.5 text-sm ${path === l.href ? "bg-white/10 text-white" : "text-slate-400 hover:text-white"}`}
           >
             {l.label}
           </Link>

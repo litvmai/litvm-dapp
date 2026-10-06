@@ -3,8 +3,8 @@ import "./globals.css";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: "LitVM LiteForge dApp",
-  description: "Swap zkLTC on the LitVM LiteForge testnet",
+  title: "litvmai",
+  description: "litvmai swap desk on LiteForge testnet",
 };
 
 export default function RootLayout({

@@ -14,13 +14,12 @@ export default function Home() {
 
       <section className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="label">LiteForge · neural desk</p>
+          <p className="label">litvmai</p>
           <h1 className="mt-2 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
             Swap zkLTC
           </h1>
           <p className="mt-2 max-w-xl text-sm text-slate-400">
-            A Litecoin-silver desk with an AI core. Trade on the home page and
-            earn XP for every confirmed swap.
+            litvmai desk on LiteForge. Trade zkLTC and earn XP for every confirmed swap.
           </p>
         </div>
         <div className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-slate-300">
