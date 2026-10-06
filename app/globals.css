@@ -10,7 +10,7 @@ body {
 }
 
 /* ---------------------------------------------------------------
-   Animated background: slow-floating neon blobs + grid + grain.
+   Animated background: aurora, stars, perspective floor, beam.
    Fixed behind everything (z-index -1), purely CSS, no JS/canvas.
    --------------------------------------------------------------- */
 .bg-fx {
@@ -18,90 +18,175 @@ body {
   inset: 0;
   z-index: -1;
   overflow: hidden;
-  background: linear-gradient(180deg, #05050a 0%, #07070f 100%);
+  background:
+    radial-gradient(1200px 700px at 50% -10%, #12102a 0%, transparent 55%),
+    radial-gradient(900px 600px at 100% 100%, #06241c 0%, transparent 50%),
+    linear-gradient(180deg, #03030a 0%, #070712 48%, #04040c 100%);
 }
 
 .blob {
   position: absolute;
   border-radius: 9999px;
-  filter: blur(80px);
-  opacity: 0.55;
+  filter: blur(70px);
+  opacity: 0.7;
   mix-blend-mode: screen;
   will-change: transform;
 }
 .blob-a {
-  width: 48vw;
-  height: 48vw;
-  max-width: 620px;
-  max-height: 620px;
-  top: -12%;
-  left: -10%;
-  background: radial-gradient(circle, rgba(0, 255, 157, 0.55), transparent 70%);
-  animation: float-a 22s ease-in-out infinite;
+  width: 52vw;
+  height: 52vw;
+  max-width: 680px;
+  max-height: 680px;
+  top: -18%;
+  left: -12%;
+  background: radial-gradient(circle, rgba(0, 255, 157, 0.5), transparent 68%);
+  animation: float-a 18s ease-in-out infinite;
 }
 .blob-b {
-  width: 42vw;
-  height: 42vw;
-  max-width: 560px;
-  max-height: 560px;
-  top: -6%;
-  right: -12%;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.55), transparent 70%);
-  animation: float-b 26s ease-in-out infinite;
+  width: 46vw;
+  height: 46vw;
+  max-width: 600px;
+  max-height: 600px;
+  top: -10%;
+  right: -14%;
+  background: radial-gradient(circle, rgba(124, 92, 255, 0.55), transparent 68%);
+  animation: float-b 22s ease-in-out infinite;
 }
 .blob-c {
-  width: 36vw;
-  height: 36vw;
-  max-width: 460px;
-  max-height: 460px;
-  bottom: -14%;
-  left: 30%;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.35), transparent 70%);
-  animation: float-c 30s ease-in-out infinite;
+  width: 40vw;
+  height: 40vw;
+  max-width: 520px;
+  max-height: 520px;
+  bottom: -18%;
+  left: 28%;
+  background: radial-gradient(circle, rgba(0, 210, 255, 0.38), transparent 70%);
+  animation: float-c 26s ease-in-out infinite;
 }
 
 @keyframes float-a {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(6vw, 4vh) scale(1.08); }
-  66% { transform: translate(-3vw, 6vh) scale(0.95); }
+  33% { transform: translate(8vw, 6vh) scale(1.1); }
+  66% { transform: translate(-4vw, 8vh) scale(0.94); }
 }
 @keyframes float-b {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(-5vw, 5vh) scale(0.92); }
-  66% { transform: translate(-7vw, -3vh) scale(1.06); }
+  33% { transform: translate(-7vw, 6vh) scale(0.9); }
+  66% { transform: translate(-9vw, -4vh) scale(1.08); }
 }
 @keyframes float-c {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(4vw, -6vh) scale(1.12); }
+  50% { transform: translate(6vw, -8vh) scale(1.14); }
 }
 
-/* Faint grid, fading toward the edges so it doesn't fight the content */
+.bg-aurora {
+  position: absolute;
+  inset: -20% -10%;
+  background:
+    radial-gradient(40% 28% at 20% 30%, rgba(0, 255, 157, 0.28), transparent 70%),
+    radial-gradient(36% 26% at 78% 22%, rgba(168, 85, 247, 0.32), transparent 70%),
+    radial-gradient(42% 30% at 60% 78%, rgba(0, 196, 255, 0.22), transparent 72%);
+  filter: blur(18px);
+  mix-blend-mode: screen;
+  animation: aurora 16s ease-in-out infinite alternate;
+  opacity: 0.9;
+}
+@keyframes aurora {
+  0% { transform: translate3d(-2%, 0, 0) scale(1); }
+  100% { transform: translate3d(3%, -2%, 0) scale(1.06); }
+}
+
+.bg-stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,0.85) 50%, transparent 51%),
+    radial-gradient(1px 1px at 28% 72%, rgba(255,255,255,0.55) 50%, transparent 51%),
+    radial-gradient(1.4px 1.4px at 46% 28%, rgba(180,255,230,0.9) 50%, transparent 51%),
+    radial-gradient(1px 1px at 63% 64%, rgba(255,255,255,0.6) 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 78% 16%, rgba(255,255,255,0.8) 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 48%, rgba(200,180,255,0.75) 50%, transparent 51%),
+    radial-gradient(1px 1px at 8% 86%, rgba(255,255,255,0.45) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 54% 88%, rgba(255,255,255,0.7) 50%, transparent 51%);
+  background-size: 100% 100%;
+  animation: twinkle 5.5s ease-in-out infinite;
+  opacity: 0.75;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.95; }
+}
+
 .bg-grid {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 42px 42px;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 85%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 85%);
+    linear-gradient(rgba(0, 255, 157, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 85, 247, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, #000 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, #000 30%, transparent 80%);
 }
 
-/* Subtle film-grain texture for depth (inline SVG, no network request) */
+.bg-floor {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: -8%;
+  height: 46%;
+  background-image:
+    linear-gradient(rgba(0, 255, 157, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 157, 0.14) 1px, transparent 1px);
+  background-size: 72px 72px;
+  transform: perspective(420px) rotateX(62deg);
+  transform-origin: center top;
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 70%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 70%, transparent);
+  animation: floor 14s linear infinite;
+  opacity: 0.55;
+}
+@keyframes floor {
+  from { background-position: 0 0; }
+  to { background-position: 0 72px; }
+}
+
+.bg-beam {
+  position: absolute;
+  top: -20%;
+  left: -30%;
+  width: 40%;
+  height: 140%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.07), transparent);
+  transform: rotate(18deg);
+  animation: beam 11s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes beam {
+  0%, 100% { transform: translateX(0) rotate(18deg); opacity: 0.35; }
+  50% { transform: translateX(160%) rotate(18deg); opacity: 0.8; }
+}
+
+.bg-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(2, 2, 8, 0.72) 100%);
+  pointer-events: none;
+}
+
 .bg-noise {
   position: absolute;
   inset: 0;
-  opacity: 0.05;
+  opacity: 0.06;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .blob { animation: none; }
+  .blob, .bg-aurora, .bg-stars, .bg-floor, .bg-beam { animation: none; }
 }
 
 @layer components {
   .card {
-    @apply rounded-2xl border border-white/10 bg-ink-800/60 p-5 shadow-[0_1px_0_0_rgba(255,255,255,0.04)_inset] backdrop-blur-xl transition-colors sm:p-6;
+    @apply rounded-2xl border border-white/10 bg-ink-800/75 p-5 shadow-[0_1px_0_0_rgba(255,255,255,0.05)_inset,0_20px_50px_-24px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-colors sm:p-6;
   }
   .btn-primary {
     @apply inline-flex items-center justify-center rounded-xl bg-neon-green px-5 py-3 font-semibold text-ink-950 transition-all duration-200
