@@ -6,7 +6,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const links = [
   { href: "/", label: "Swap" },
-  { href: "/#board", label: "Board" },
+  { href: "/leaderboard", label: "Board" },
   { href: "/dashboard", label: "Tasks" },
 ];
 
