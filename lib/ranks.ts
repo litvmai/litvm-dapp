@@ -7,9 +7,11 @@ export const RANKS = [
   { name: "Legend", min: 2500 },
 ] as const;
 
+export type Rank = (typeof RANKS)[number];
+
 export function rankFor(xp: number) {
-  let current = RANKS[0];
-  let next: (typeof RANKS)[number] | null = RANKS[1] ?? null;
+  let current: Rank = RANKS[0];
+  let next: Rank | null = RANKS[1] ?? null;
   for (let i = 0; i < RANKS.length; i++) {
     if (xp >= RANKS[i].min) {
       current = RANKS[i];
