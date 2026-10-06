@@ -1,0 +1,3 @@
+{
+  "crons": [{ "path": "/api/tweet-task", "schedule": "0 * * * *" }]
+}
