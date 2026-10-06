@@ -10,13 +10,9 @@ export default function DashboardPage() {
       <NetworkGuard />
 
       <section className="mt-6 text-center">
-        <h1 className="text-3xl font-extrabold sm:text-4xl">
-          <span className="bg-gradient-to-r from-neon-green to-neon-purple bg-clip-text text-transparent">
-            Social Dashboard
-          </span>
-        </h1>
+        <h1 className="text-3xl font-semibold sm:text-4xl">Tasks</h1>
         <p className="mx-auto mt-2 max-w-lg text-slate-400">
-          Connect your X and Discord accounts, then claim XP for each task.
+          Connect X and Discord, then claim XP for each task.
         </p>
       </section>
 
@@ -28,7 +24,7 @@ export default function DashboardPage() {
 
       <div className="mt-8 text-center">
         <a href="/" className="btn-secondary">
-          ← Back to main page
+          Back to swap
         </a>
       </div>
     </main>

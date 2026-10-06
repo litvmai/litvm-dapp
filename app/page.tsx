@@ -1,50 +1,43 @@
 import { Header } from "@/components/Header";
 import { NetworkGuard } from "@/components/NetworkGuard";
-import { WalletInfo } from "@/components/WalletInfo";
-import { ContractBalance } from "@/components/ContractBalance";
-import { Participate } from "@/components/Participate";
-import { SocialTasks } from "@/components/SocialTasks";
-import { Leaderboard } from "@/components/Leaderboard";
-import { GasRefund } from "@/components/GasRefund";
+import { Swap } from "@/components/Swap";
 import { Rewards } from "@/components/Rewards";
+import { Leaderboard } from "@/components/Leaderboard";
+import { Participate } from "@/components/Participate";
+import { WalletInfo } from "@/components/WalletInfo";
 
 export default function Home() {
   return (
-    <main className="mx-auto max-w-5xl px-4 pb-20">
+    <main className="mx-auto max-w-6xl px-4 pb-20">
       <Header />
       <NetworkGuard />
 
-      <section className="mt-10 text-center">
-        <h1 className="text-4xl font-extrabold sm:text-5xl">
-          <span className="bg-gradient-to-r from-neon-green to-neon-purple bg-clip-text text-transparent">
-            LitVM LiteForge
-          </span>
-        </h1>
-        <p className="mx-auto mt-3 max-w-xl text-slate-400">
-          Swap, participate, and check in on LiteForge. Every confirmed action
-          adds XP and moves you up the leaderboard.
-        </p>
+      <section className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="label">LiteForge · neural desk</p>
+          <h1 className="mt-2 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+            Swap zkLTC
+          </h1>
+          <p className="mt-2 max-w-xl text-sm text-slate-400">
+            A Litecoin-silver desk with an AI core. Trade on the home page and
+            earn XP for every confirmed swap.
+          </p>
+        </div>
+        <div className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-slate-300">
+          +10 XP per verified swap
+        </div>
       </section>
 
-      <div className="mt-10 grid gap-6">
-        <Rewards />
-      </div>
-
-      <div className="mt-6 grid gap-6 md:grid-cols-2">
-        <WalletInfo />
-        <ContractBalance />
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)]">
+        <Swap />
+        <div id="xp" className="space-y-6">
+          <Rewards />
+          <WalletInfo />
+        </div>
       </div>
 
       <div className="mt-6 grid gap-6 md:grid-cols-2">
         <Participate />
-        <SocialTasks />
-      </div>
-
-      <div className="mt-6 grid gap-6">
-        <GasRefund />
-      </div>
-
-      <div className="mt-6 grid gap-6">
         <Leaderboard />
       </div>
 
