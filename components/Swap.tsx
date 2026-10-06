@@ -46,9 +46,8 @@ export function Swap() {
   const fromTokenAddress = fromIsNative ? WZKLTC_ADDRESS : (fromSide as Address);
 
   const path = useMemo<Address[] | null>(() => {
-    if (!toAddress) return null;
-    if (fromIsNative) return [WZKLTC_ADDRESS, toAddress];
-    return [fromTokenAddress, toAddress];
+    if (fromIsNative) return toAddress ? [WZKLTC_ADDRESS, toAddress] : null;
+    return [fromTokenAddress, WZKLTC_ADDRESS];
   }, [fromIsNative, fromTokenAddress, toAddress]);
 
   // Decimals for "from" token (native zkLTC = 18)
@@ -72,7 +71,7 @@ export function Swap() {
   });
 
   const decimalsIn = fromIsNative ? 18 : fromDecimals ?? 18;
-  const decimalsOut = toDecimals ?? 18;
+  const decimalsOut = fromIsNative ? toDecimals ?? 18 : 18;
 
   let amountInWei: bigint | null = null;
   try {
@@ -177,7 +176,7 @@ export function Swap() {
       swap({
         address: ROUTER_ADDRESS,
         abi: routerAbi,
-        functionName: "swapExactTokensForTokens",
+        functionName: "swapExactTokensForETH",
         args: [amountInWei, amountOutMin, path, address, deadline],
         chainId: liteForge.id,
       });
@@ -347,7 +346,7 @@ export function Swap() {
         ) : (
           <button
             className="btn-primary w-full"
-            disabled={!amountInWei || !toAddress || insufficient || swapping || swapConfirming}
+            disabled={!amountInWei || !path || !amountOutWei || insufficient || swapping || swapConfirming}
             onClick={handleSwap}
           >
             {swapping
