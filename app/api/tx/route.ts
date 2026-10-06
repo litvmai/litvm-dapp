@@ -11,8 +11,9 @@ const publicClient = createPublicClient({
 });
 
 /**
- * Awards XP after verifying the tx on LiteForge: confirmed, sent by the
- * claimed wallet, and sent to LitVMCore (+5) or the verified router (+10).
+ * Awards XP after verifying the tx on LiteForge.
+ * Router swaps and LitVMCore swapZkltcForTokens (calldata longer than
+ * participate()) get SWAP_XP. A plain participate() gets TX_XP.
  * Each hash can only be credited once.
  */
 export async function POST(req: NextRequest) {
@@ -40,12 +41,11 @@ export async function POST(req: NextRequest) {
     ]);
 
     const to = tx.to?.toLowerCase();
-    const awarded =
-      to === CONTRACT_ADDRESS.toLowerCase()
-        ? TX_XP
-        : to === ROUTER_ADDRESS.toLowerCase()
-        ? SWAP_XP
-        : 0;
+    const input = tx.input ?? "0x";
+    const toRouter = to === ROUTER_ADDRESS.toLowerCase();
+    const toCore = to === CONTRACT_ADDRESS.toLowerCase();
+    const isSwapCall = toRouter || (toCore && input.length > 10);
+    const awarded = isSwapCall ? SWAP_XP : toCore ? TX_XP : 0;
     const valid =
       receipt.status === "success" &&
       tx.from.toLowerCase() === address.toLowerCase() &&
