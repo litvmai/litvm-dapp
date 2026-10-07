@@ -157,7 +157,7 @@ export function Swap() {
 
   function flip() {
     if (fromIsNative) {
-      if (toAddress) setFromSide(toAddress);
+      setFromSide(toAddress ?? TOKEN_LIST[0].address);
       setToToken("");
     } else {
       setToToken(fromTokenAddress);
@@ -252,16 +252,18 @@ export function Swap() {
             </span>
           ) : (
             <select
-              value={fromTokenAddress}
+              value={TOKEN_LIST.some((token) => token.address === fromTokenAddress) ? fromTokenAddress : TOKEN_LIST[0].address}
               onChange={(e) => setFromSide(e.target.value as Address)}
               className="shrink-0 rounded-lg bg-ink-700 px-2 py-1.5 text-sm font-semibold text-neon-green outline-none"
             >
-              {holdings.length === 0 && <option value={fromTokenAddress}>No balance</option>}
-              {holdings.map((token) => (
-                <option key={token.address} value={token.address}>
-                  {token.symbol} · {Number(formatUnits(token.balance, 18)).toFixed(2)}
-                </option>
-              ))}
+              {TOKEN_LIST.map((token) => {
+                const held = holdings.find((h) => h.address === token.address);
+                return (
+                  <option key={token.address} value={token.address}>
+                    {token.symbol}{held ? ` · ${Number(formatUnits(held.balance, 18)).toFixed(2)}` : ""}
+                  </option>
+                );
+              })}
             </select>
           )}
         </div>
