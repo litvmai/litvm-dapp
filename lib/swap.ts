@@ -119,11 +119,6 @@ export const NATIVE = "NATIVE" as const;
  */
 export const TOKEN_LIST: { address: Address; symbol: string; name: string }[] = [
   {
-    address: "0x43E64985dC33723c42e46829b6f064Aa1C072958",
-    symbol: "LITVMAI",
-    name: "LitVM AI",
-  },
-  {
     address: "0x0DF8030A7FAec436d466d9D3d8290b3e3b6b69d9",
     symbol: "TYV",
     name: "Tyvion",
