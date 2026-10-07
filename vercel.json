@@ -1,3 +1,17 @@
 {
-  "crons": [{ "path": "/api/tweet-task", "schedule": "0 9 * * *" }]
+  "crons": [{ "path": "/api/tweet-task", "schedule": "0 9 * * *" }],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "litvmai-dapp.vercel.app" }],
+      "destination": "https://testnet.litvmai.xyz/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "litvmai-litvmai-7535.vercel.app" }],
+      "destination": "https://testnet.litvmai.xyz/:path*",
+      "permanent": false
+    }
+  ]
 }
