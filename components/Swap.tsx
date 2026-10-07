@@ -5,6 +5,7 @@ import {
   useAccount,
   useBalance,
   useReadContract,
+  useReadContracts,
   useWriteContract,
   useWaitForTransactionReceipt,
 } from "wagmi";
@@ -107,6 +108,26 @@ export function Swap() {
     query: { enabled: !fromIsNative && !!address },
   });
   const fromBalanceWei = fromIsNative ? nativeBalance?.value : (tokenBalance as bigint | undefined);
+
+  const { data: holdingBalances } = useReadContracts({
+    contracts: TOKEN_LIST.map((token) => ({
+      address: token.address,
+      abi: erc20Abi,
+      functionName: "balanceOf",
+      args: address ? [address] : undefined,
+      chainId: liteForge.id,
+    })),
+    query: { enabled: !!address, refetchInterval: 12_000 },
+  });
+  const holdings = TOKEN_LIST.map((token, i) => ({
+    ...token,
+    balance: (holdingBalances?.[i]?.result as bigint | undefined) ?? 0n,
+  })).filter((token) => token.balance > 0n);
+
+  function setPercent(pct: number) {
+    if (fromBalanceWei === undefined) return;
+    setAmountIn(formatUnits((fromBalanceWei * BigInt(pct)) / 100n, decimalsIn));
+  }
   const insufficient =
     amountInWei !== null && fromBalanceWei !== undefined && amountInWei > fromBalanceWei;
 
@@ -198,18 +219,24 @@ export function Swap() {
 
       {/* FROM */}
       <div className="mt-4 rounded-xl border border-white/10 bg-ink-900/60 p-3">
-        <div className="flex items-center justify-between text-xs text-slate-500">
+        <div className="flex items-center justify-between gap-2 text-xs text-slate-500">
           <span>You pay</span>
-          {fromBalanceWei !== undefined && (
-            <button
-              className="hover:text-neon-green"
-              onClick={() =>
-                setAmountIn(formatUnits(fromBalanceWei, fromIsNative ? 18 : decimalsIn))
-              }
-            >
-              Balance: {Number(formatUnits(fromBalanceWei, fromIsNative ? 18 : decimalsIn)).toFixed(4)}
-            </button>
-          )}
+          <div className="flex items-center gap-1">
+            {[20, 50, 100].map((pct) => (
+              <button
+                key={pct}
+                className="rounded-full border border-white/10 px-2 py-0.5 hover:text-white"
+                onClick={() => setPercent(pct)}
+              >
+                {pct}%
+              </button>
+            ))}
+            {fromBalanceWei !== undefined && (
+              <span className="ml-1">
+                {Number(formatUnits(fromBalanceWei, decimalsIn)).toFixed(4)}
+              </span>
+            )}
+          </div>
         </div>
         <div className="mt-1 flex items-center gap-2">
           <input
@@ -219,9 +246,24 @@ export function Swap() {
             className="w-full bg-transparent text-2xl font-semibold outline-none"
             placeholder="0.0"
           />
-          <span className="shrink-0 rounded-lg bg-ink-700 px-3 py-1.5 text-sm font-semibold text-neon-green">
-            {fromIsNative ? "zkLTC" : "Token"}
-          </span>
+          {fromIsNative ? (
+            <span className="shrink-0 rounded-lg bg-ink-700 px-3 py-1.5 text-sm font-semibold text-neon-green">
+              zkLTC
+            </span>
+          ) : (
+            <select
+              value={fromTokenAddress}
+              onChange={(e) => setFromSide(e.target.value as Address)}
+              className="shrink-0 rounded-lg bg-ink-700 px-2 py-1.5 text-sm font-semibold text-neon-green outline-none"
+            >
+              {holdings.length === 0 && <option value={fromTokenAddress}>No balance</option>}
+              {holdings.map((token) => (
+                <option key={token.address} value={token.address}>
+                  {token.symbol} · {Number(formatUnits(token.balance, 18)).toFixed(2)}
+                </option>
+              ))}
+            </select>
+          )}
         </div>
       </div>
 
