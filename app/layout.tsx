@@ -17,11 +17,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <div className="bg-fx" aria-hidden="true">
-          <div className="bg-aurora" />
+          <div className="orb orb-a" />
+          <div className="orb orb-b" />
+          <div className="orb orb-c" />
           <div className="bg-grid" />
-          <div className="bg-nodes" />
-          <div className="bg-vignette" />
-          <div className="bg-noise" />
+          <div className="bg-beam" />
         </div>
         <Providers>
           {children}
