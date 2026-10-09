@@ -25,10 +25,6 @@ export default function Home() {
         <GasRefund />
         <WalletInfo />
       </div>
-
-      <footer className="mt-12 text-center text-xs text-slate-500">
-        Testnet only · zkLTC has no real value
-      </footer>
     </main>
   );
 }
