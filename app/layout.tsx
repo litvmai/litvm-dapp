@@ -24,8 +24,10 @@ export default function RootLayout({
           <div className="bg-beam" />
         </div>
         <Providers>
-          {children}
-          <Footer />
+          <div className="flex min-h-screen flex-col">
+            <div className="flex-1">{children}</div>
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>
