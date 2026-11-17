@@ -28,7 +28,8 @@ export function Footer() {
           </div>
           <div className="space-y-3 text-sm">
             <p className="text-slate-400">Network</p>
-            <a className="block text-slate-200 hover:text-white" href="https://liteforge.explorer.caldera.xyz" target="_blank" rel="noreferrer">Explorer</a>
+            <a className="block text-slate-200 hover:text-white" href="https://explorer.testnet.liteforge.zeeve.net" target="_blank" rel="noreferrer">Explorer</a>
+            <a className="block text-slate-200 hover:text-white" href="https://faucet.testnet.liteforge.zeeve.net/" target="_blank" rel="noreferrer">Faucet</a>
             <a className="block text-slate-200 hover:text-white" href="https://testnet.litvmai.xyz" target="_blank" rel="noreferrer">testnet.litvmai.xyz</a>
           </div>
           <div>

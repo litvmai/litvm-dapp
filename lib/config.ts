@@ -3,7 +3,7 @@ import type { Address } from "viem";
 /**
  * LitVMCore — the project's own verified contract on LiteForge.
  * Source: see LitVMCore.sol. Replaces the earlier unverified contract.
- * https://liteforge.explorer.caldera.xyz/address/0x88914966777637cA6e457F63F969c45f89517611
+ * https://explorer.testnet.liteforge.zeeve.net/address/0x88914966777637cA6e457F63F969c45f89517611
  */
 export const CONTRACT_ADDRESS: Address =
   "0x88914966777637cA6e457F63F969c45f89517611";
